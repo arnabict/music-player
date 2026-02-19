@@ -76,13 +76,29 @@ const songs = [
 export const useMusic = () => {
     const [allSongs, setAllSongs] = useState(songs)
     const [currentTrack, setCurrentTrack] = useState(songs[0])
-    const [currentTrackIndex, setCurrentIndexTrack] = useState(0)
+    const [currentTrackIndex, setCurrentTrackIndex] = useState(0)
     const [currentTime, setCurrentTime] = useState(0)
     const [duration, setDuration] = useState(0)
 
     const handlePlaySong = (song, index) => {
         setCurrentTrack(song)
-        setCurrentIndexTrack(index)
+        setCurrentTrackIndex(index)
+    }
+
+    const nextTrack = () => {
+        setCurrentTrackIndex((prev) => {
+            const nextIndex = (prev + 1) % allSongs.length
+            setCurrentTime(allSongs[nextIndex]);
+            return nextIndex
+        })
+    }
+
+    const prevTrack = () => {
+        setCurrentTrackIndex((prev) => {
+            const nextIndex = prev === 0 ? allSongs.length - 1 : prev - 1
+            setCurrentTime(allSongs[nextIndex]);
+            return nextIndex
+        })
     }
 
     const formatTime = (time) => {
@@ -94,5 +110,5 @@ export const useMusic = () => {
         return `${minutes}:${seconds.toString().padStart(2, "0")}`;
     }
 
-    return { allSongs, currentTrack, currentTrackIndex, handlePlaySong, currentTime, setCurrentTime, formatTime, duration };
+    return { allSongs, currentTrack, currentTrackIndex, handlePlaySong, currentTime, setCurrentTime, formatTime, duration, setDuration, nextTrack, prevTrack };
 }
