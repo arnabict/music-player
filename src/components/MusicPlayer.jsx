@@ -143,6 +143,7 @@ export const MusicPlayer = () => {
           max="1"
           step="0.1"
           className="volume-bar"
+          value={volume}
           onChange={handleVolumeChange}
         />
       </div>
