@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { MusicContext } from "./Context";
 
 const songs = [
@@ -84,6 +84,22 @@ export const MusicProvider = ({ children }) => {
   const [volume, setVolume] = useState(1);
   const [playlists, setPlaylists] = useState([]);
 
+  useEffect(() => {
+    const savedPlaylists = localStorage.getItem("musicPlayerPlaylists");
+    if (savedPlaylists) {
+      const playlists = JSON.parse(savedPlaylists);
+      setPlaylists(playlists);
+    }
+  }, []);
+
+  useEffect(() => {
+    if (playlists.length > 0) {
+      localStorage.setItem("musicPlayerPlaylists", JSON.stringify(playlists));
+    } else {
+      localStorage.removeItem("musicPlayerPlaylists");
+    }
+  }, [playlists]);
+
   const handlePlaySong = (song, index) => {
     setCurrentTrack(song);
     setCurrentTrackIndex(index);
@@ -139,6 +155,12 @@ export const MusicProvider = ({ children }) => {
     );
   };
 
+  const deletePlaylist = (playlistId) => {
+    setPlaylists((prev) =>
+      prev.filter((playlist) => playlist.id !== playlistId),
+    );
+  };
+
   const play = () => setIsPlaying(true);
   const pause = () => setIsPlaying(false);
 
@@ -148,6 +170,7 @@ export const MusicProvider = ({ children }) => {
         allSongs,
         setAllSongs,
         currentTrack,
+        setCurrentTrack,
         currentTrackIndex,
         handlePlaySong,
         currentTime,
@@ -165,6 +188,7 @@ export const MusicProvider = ({ children }) => {
         playlists,
         createPlaylist,
         addSongToPlaylist,
+        deletePlaylist,
       }}
     >
       {children}

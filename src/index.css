@@ -550,6 +550,7 @@ body {
   background: rgba(255, 255, 255, 0.1);
   color: white;
   font-size: 1rem;
+  font-family: "Quicksand", sans-serif;
 }
 
 .playlist-input::placeholder {
@@ -562,6 +563,7 @@ body {
   border: none;
   border-radius: 8px;
   color: white;
+  font-family: "Quicksand", sans-serif;
   font-weight: 600;
   cursor: pointer;
   transition: all 0.3s ease;
