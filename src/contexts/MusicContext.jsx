@@ -82,15 +82,24 @@ export const MusicProvider = ({ children }) => {
   const [duration, setDuration] = useState(0);
   const [isPlaying, setIsPlaying] = useState(false);
   const [volume, setVolume] = useState(1);
-  const [playlists, setPlaylists] = useState([]);
-
-  useEffect(() => {
-    const savedPlaylists = localStorage.getItem("musicPlayerPlaylists");
-    if (savedPlaylists) {
-      const playlists = JSON.parse(savedPlaylists);
-      setPlaylists(playlists);
+  // const [playlists, setPlaylists] = useState([]);
+  const [playlists, setPlaylists] = useState(() => {
+    if (typeof window !== "undefined") {
+      const savedPlaylists = localStorage.getItem("musicPlayerPlaylists");
+      if (savedPlaylists) {
+        return JSON.parse(savedPlaylists);
+      }
     }
-  }, []);
+    return [];
+  });
+
+  // useEffect(() => {
+  //   const savedPlaylists = localStorage.getItem("musicPlayerPlaylists");
+  //   if (savedPlaylists) {
+  //     const playlists = JSON.parse(savedPlaylists);
+  //     setPlaylists(playlists);
+  //   }
+  // }, []);
 
   useEffect(() => {
     if (playlists.length > 0) {
